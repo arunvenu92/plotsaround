@@ -141,50 +141,55 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   <?php
 	   session_start();
 	   include_once "php/connectPAdb.php";
-	   $result = array();
-	   $result = $_SESSION['result'];
+	   $resultJSON=array();
+	   $slicers = array();
 	   $rowCount = $_SESSION['rowcount'];
-	    while (list($key, $value) = each($result)) 
-		 {
-		  echo $value;
-         }		  
+	   echo '<h3>'.$rowCount.' results found for the search Keyword</h3>';
 		
-		  // echo 'Key '.$key.'Value '.$value.'\n';
-		
-		for($i=0;$i<$rowCount;$i++)
-		{
-		   echo'<div id="searchResults">';
-	       echo '<div id="image"><a href="AdditionalDetails.php"><img src="./images/p16.jpg"></a></div>';
-		   echo '<div id="developerdetails">';
-		   echo '<table border="1">';
-			while (list($key, $value) = each($result)) 
-			{
-			echo '<tr>';
-			   if($key == "dev_name")
-               {
-    			echo  '<td><label> Project Name</td><td><label>'.$value.'</label>';
-			   }
-			   if($key == "builder_name")
-               {				   
-				echo  '<td><label> Builder Name<label>'.$value.'</label>';
-			   }
-			   if($key == "progress")
-               {				   
-				echo  '<td><label> Progress</td><td><label>'.$value.'</label>';
-			   }
-			   if($value == 1)
-			   {
-				echo '<td><label>MUDA Approval </label></td><td><label>Approved </label>';
-			   }
-			echo '</tr>';
+		   $resultJSON = json_decode(file_get_contents('json/output.json'),true);
+		   
+		   foreach($resultJSON as $developerData)
+		   {
+			    echo'<div id="searchResults">';
+			    echo '<div id="image"><a href="AdditionalDetails.php"><img src="./images/p16.jpg"></a></div>';
+			    echo '<div id="developerdetails">';
+			    echo '<table border="1">';
+			    
+				while (list($key, $value) = each($developerData)) 
+				 {
+				  if($key == "dev_name")
+				   {
+					echo  '<tr><td><label> Project Name</td><td><label>'.$value.'</label></td></tr>';
+				   }
+				   if($key == "builder_name")
+				   {				   
+					echo  '<tr><td><label> Builder Name</td><td><label>'.$value.'</label></td></tr>';
+				   }
+				   if($key == "progress")
+				   {				   
+				    echo  '<tr><td><label> Progress</td><td><label>'.$value.'</label></td></tr>';
+				   }
+				   if($key == "isApproved")
+				   {
+					   $approval = $value;
+				   }
+				 }
+				 if($approval == 1)
+				 {
+				  echo '<td><label>MUDA Approval </label></td><td><label>Approved </label>';
+				 }
+				 else
+			     {
+				 echo '<td><label>MUDA Approval </label></td><td><label>Not Approved </label>';	 
+				 }
+					 
+			   echo '</table>';
+			   echo '</div>';	
+			   echo '<div id="personalDetails">';
+			   echo '<h3> Person to be contacted <h3>';
+			   echo '</div>';
+			   echo'</div>';
 			}
-		   echo '</table>';
-		   echo '</div>';	
-		   echo '<div id="personalDetails">';
-		   echo '<h3> Person to be contacted <h3>';
-		   echo '</div>';
-	       echo'</div>';
-		}
 	   ?>
 	</div>
 	
