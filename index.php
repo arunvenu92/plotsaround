@@ -1,10 +1,4 @@
-<!--
-Au<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -18,6 +12,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
     <link href='http://fonts.googleapis.com/css?family=Exo+2:400,900italic,900,800italic,800,700italic,700,600italic,600,500italic,500,400italic,300italic,300,200italic,200' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="js/jquery-1.11.1.min.js"></script>
     <script src="js/responsiveslides.min.js"></script>
     <script>
@@ -49,9 +45,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         jQuery(function ($) {
             $(".swipebox").swipebox();
         });
+		 $(function(){
+
+			$("#dropdown-menu1").on('click', 'li a', function(){
+			  $("#price_button:first-child").text($(this).text());
+			  $("#price_button:first-child").val($(this).text());
+		   });
+            
+			$("#dropdown-menu2").on('click', 'li a', function(){
+			  $("#locality_button:first-child").text($(this).text());
+			  $("#locality_button:first-child").val($(this).text());
+		   });
+		});
     </script>
-
-
+    <script>
+	   function checkValue()
+	   {
+		   var searchForm = document.forms["searchForm"];
+		   
+		   var word = searchForm.elements["searchDb"].value;
+		   var locality =searchForm.elements["search_locality"].value;
+		   var price = searchForm.elements["search_price"].value;
+		   
+		   if(word=="" && locality == 0 && price == 0)
+		   {
+			 alert("Please give anyone of the search criteria"); 
+             return false; 			 
+		   }
+		   else
+		   {
+			   return true;
+		   }
+		
+		}
+	</script>
 </head>
 <body>
     <div class="header">
@@ -93,11 +120,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <img src="images/plotsaround-logo2.png"></a>
                 </div>
                 <div class="search">
-                   <form name="searchForm" action="./php/searchKeyword.php" method="POST">
+                   <form name="searchForm" action="./php/searchKeyword.php" method="POST" onsubmit="return checkValue()">
                         <input type="text" name="searchDb" placeholder="search...">
-                        <input type="submit" value="">
+						<input type="hidden" name="price" id="search_price" value="0">
+						<input type="hidden" name="locality" id="search_locality" value="0">
+						<div class="dropdown">
+						  <button id="price_button" name="price"  class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select price
+						  <span class="caret"></span></button>
+						  <ul id="dropdown-menu1"  class="dropdown-menu">
+						    <li><a onclick="$('#search_price').val('50-100');"> 500 - 1000</a></li>
+							<li><a onclick="$('#search_price').val('1000 - 1500');"> 1000 - 1500</a></li>
+							<li><a onclick="$('#search_price').val('1500 - 2000');"> 1500 - 2000</a></li>
+						 </ul>
+						</div>
+						<div class="dropdown">
+						  <button id="locality_button" name="locality" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Locality
+						  <span class="caret"></span></button>
+						  <ul id="dropdown-menu2" class="dropdown-menu">
+							<li><a onclick="$('#search_locality').val('JP Nagar');">JP Nagar</a></li>
+							<li><a onclick="$('#search_locality').val('Hebbal');">Hebbal</a></li>
+							<li><a onclick="$('#search_locality').val('Bogadi Road');">Bogadi Road</a></li>
+						  </ul>
+						</div>
+						<input type="submit" value="">
                     </form>
-
                 </div>
                 <div class="clearfix"></div>
             </div>

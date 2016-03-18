@@ -14,6 +14,6 @@ if (!$conn)
 }
 else
 {
-	$_SESSION['connection']=$conn;
+	echo "Connected Successfully \n";
 }
 ?>
